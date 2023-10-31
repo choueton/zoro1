@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+  {% block enfant %}
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Basic form elements</h4>
+        <p class="card-description">
+          Basic form elements
+        </p>
+        <form class="forms-sample" method="POST" action="{{ url_for('upd_Produit', id=Produit[0]) }}">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">mon Produit</label>
+                    <input type="text" class="form-control" id="exampleInputName1" value="{{ Produit[1] }}" name="Nom">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail2">Description Produit</label>
+                    <input type="text" class="form-control" id="exampleInputEmail2" value="{{ Produit[2] }}" name="Description">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail3">PrixUnitaire</label>
+                    <input type="number" class="form-control" id="exampleInputEmail3" value="{{ Produit[3] }}" name="PrixUnitaire">
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  {% endblock %}

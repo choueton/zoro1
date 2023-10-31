@@ -10,14 +10,14 @@
               <p class="card-description">
                 Add class <code>.table-dark</code>
               </p>
-              <a type="button" href="/add_client" class="btn btn-success">ajout</a>
+              <a type="button" href="/add_Produit" class="btn btn-success">ajout</a>
               <div class="table-responsive pt-3">
                 <table class="table table-dark">
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>mon client</th>
-                        <th>address client</th>
+                        <th>mon Produit</th>
+                        <th>address Produit</th>
                         <th>telephone</th>
                         <th>action</th>
                       </tr>
@@ -30,8 +30,8 @@
                         <td>{{ row[2] }}</td>
                         <td>{{ row[3] }}</td>
                         <td>
-                          <a class="btn btn-sm btn-info" href="/upd_client/{{ row.0 }}">modifier</a>
-                          <a href="/delete_client/{{ row.0 }}" class="btn btn-sm btn-danger" onclick="return confirm('tu veux le supprimet vraiment?')">surpprime</a>
+                          <a class="btn btn-sm btn-info" href="/upd_Produit/{{ row.0 }}">modifier</a>
+                          <a href="/delete_Produit/{{ row.0 }}" class="btn btn-sm btn-danger" onclick="return confirm('tu veux le supprimet vraiment?')">surpprime</a>
                         </td>
                       </tr>
                      {% endfor %}
