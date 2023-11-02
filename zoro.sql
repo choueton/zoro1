@@ -10,7 +10,7 @@ CREATE TABLE magasin (
     Nom VARCHAR(50),
     adresse VARCHAR(200),
     Telephone INT,
-    mail DECIMAL(10, 2),
+    mail VARCHAR(200),
 );
 
 CREATE TABLE vente (
