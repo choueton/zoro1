@@ -1,20 +1,72 @@
 # Importation de Flask et d'autres dépendances
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import pyodbc
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Création d'une instance de l'application Flask
 app = Flask(__name__)
 
+app.secret_key = 'votre_clé_secrète'
 # Configuration de la connexion à SQL Server
 app.config['SQL_SERVER_CONNECTION_STRING'] = """
     Driver={SQL Server};
     Server=DESKTOP-JK6D8G9\\SQLEXPRESS;
-    Database=zoro1;
+    Database=zoro;
     Trusted_Connection=yes;"""
 
 
 
-# Définition d'une route '/Produit'
+
+
+@app.route('/register', methods=['GET','POST'])
+def register():
+    if request.method == 'POST':
+        mail = request.form['mail']
+        nom = request.form['nom']
+        prenom = request.form['prenom']
+        password = request.form['password']
+
+        # Hacher le mot de passe
+        hashed_password = generate_password_hash(password)
+
+        connection = pyodbc.connect(app.config['SQL_SERVER_CONNECTION_STRING'])
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO users (mail, Nom, prenom, password) VALUES (?, ?, ?, ?)", (mail, nom, prenom, hashed_password))
+        connection.commit()
+        session['user'] = mail
+        flash('Inscription réussie et connexion automatique !')
+        cursor.close()
+        connection.close()
+        
+        return redirect(url_for('index'))
+    
+    return render_template('./auth/register.html')
+
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        mail = request.form['mail']
+        password = request.form['password']
+
+
+        connection = pyodbc.connect(app.config['SQL_SERVER_CONNECTION_STRING'])
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM users WHERE mail = ?", (mail,))
+        user = cursor.fetchone()
+
+        if user and check_password_hash(user.password, password):  # Accès au mot de passe directement par le nom de colonne
+            session['user'] = user.mail
+            flash('Connexion réussie !')
+            return redirect(url_for('index'))
+        else:
+            flash('Mauvaise adresse e-mail ou mot de passe.')
+
+    return render_template('./auth/login.html')
+
+
+# Définition d'une route '/index'
 @app.route('/')
 def index():
     return render_template('index.html')

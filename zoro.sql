@@ -1,3 +1,11 @@
+CREATE TABLE users (
+    mail VARCHAR(200) PRIMARY KEY,
+    Nom VARCHAR(50),
+    prenom VARCHAR(200),
+    password VARCHAR (500),
+);
+
+
 CREATE TABLE Produit (
     id_produit INT not null IDENTITY(1,1) PRIMARY KEY,
     Nom VARCHAR(50),
