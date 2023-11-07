@@ -58,7 +58,6 @@ def login():
 
         if user and check_password_hash(user.password, password):  # Accès au mot de passe directement par le nom de colonne
             session['user'] = user.mail
-            flash('Connexion réussie !')
             return redirect(url_for('index'))
         else:
             flash('Mauvaise adresse e-mail ou mot de passe.')
@@ -66,10 +65,23 @@ def login():
     return render_template('./auth/login.html')
 
 
+
+@app.route('/deconnection')
+def deconnection():
+    session.pop('user', None)
+    return redirect(url_for('login'))
+
+
+
 # Définition d'une route '/index'
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if 'user' in session:
+        return render_template('index.html')
+    else:
+        return render_template('./auth/login.html')
+    
+
 
 # Définition d'une route '/Produit'
 @app.route('/Produit')
